@@ -23,8 +23,7 @@ Supports PDF text extraction, OCR recognition, and image extraction via the MCP 
 
 ```
 mcp-pdf-server/
-├── pdf_resources/        # Directory for uploaded and processed PDF files
-├── txt_server.py         # Main server entry point
+├── pdf_server.py         # Main server entry point
 └── README.md             # Project documentation
 ```
 
@@ -47,30 +46,14 @@ pip install pymupdf mcp
 Run the following command:
 
 ```bash
-python txt_server.py
+python pdf_server.py
 ```
 
 You should see logs like:
 
 ```
-Serving on http://127.0.0.1:6231
+INFO:mcp-pdf-server:Starting MCP PDF Server...
 ```
-
----
-
-## 🌐 Web Debugging Interface
-
-Open your browser and visit:
-
-```
-http://127.0.0.1:6231
-```
-
-- Select a tool from the left panel
-- Fill in parameters on the right panel
-- Click "Run" to test the tool
-
-No coding required — easily debug and test via the web UI.
 
 ---
 

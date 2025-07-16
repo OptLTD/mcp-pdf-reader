@@ -1,17 +1,9 @@
-from typing import Optional, List, Dict, Any
-import os, json
-import base64
-import fitz
+import os, json, base64, fitz, logging
 from mcp.server.fastmcp import FastMCP
-import uuid
-import logging
-from datetime import datetime
+from typing import Optional, List, Dict, Any
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('mcp-pdf-server')
-
-PDF_DIR = os.path.join(os.getcwd(), "pdf_resources")
-os.makedirs(PDF_DIR, exist_ok=True)
 
 mcp = FastMCP("PDF Reader", version="1.0.0", description="MCP server for PDF reading")
 
@@ -20,20 +12,15 @@ pdf_cache = {}
 
 
 @mcp.tool()
-def read_pdf_text(file_path: str, start_page: int = 1, end_page: Optional[int] = None) -> Dict[
-    str, Any]:
+def read_pdf_text(file_path: str, start_page: int = 1, end_page: Optional[int] = None) -> str:
     """
-    Read normal text from a PDF file, one text per page.
-
+    Output PDF text content per page in markdown format.
     Args:
         file_path: Path to the PDF file
         start_page: Start page (1-based)
         end_page: End page (inclusive)
-
     Returns:
-        Dict containing:
-            - page_count: total number of pages
-            - pages: list of {page_number, text}
+        Markdown formatted string
     """
     if not os.path.exists(file_path):
         raise ValueError(f"File not found: {file_path}")
@@ -48,17 +35,16 @@ def read_pdf_text(file_path: str, start_page: int = 1, end_page: Optional[int] =
     if start_page > end_page:
         start_page, end_page = end_page, start_page
 
-    pages = []
-
+    markdown = ""
     for page_num in range(start_page - 1, end_page):
         page = doc[page_num]
-        page_text = page.get_text()
-
-        pages.append({"page_number": page_num + 1, "text": page_text.strip()})
+        page_text = page.get_text().strip()
+        markdown += f"---------- page {page_num + 1} ----------\n"
+        markdown += page_text + "\n"
+    markdown += f"---------- total {end_page - start_page + 1} ----------\n"
 
     doc.close()
-
-    return json.loads(json.dumps({"page_count": total_pages, "pages": pages}, ensure_ascii=False))
+    return markdown
 
 
 @mcp.tool()
@@ -145,6 +131,10 @@ def read_pdf_images(file_path: str, page_number: int=1) -> Dict[str, List[Dict[s
 
 
 if __name__ == "__main__":
+    # 读取环境变量 PDF_DIR，如果没有则用默认路径
+    PDF_DIR = os.environ.get("PDF_DIR")
+    if os.path.exists(PDF_DIR):
+        os.chdir(PDF_DIR)
     logger.info("Starting MCP PDF Server...")
-    logger.info(f"PDF resources will be stored in: {PDF_DIR}")
+    logger.info(f"Current directory: {os.getcwd()}")
     mcp.run()
