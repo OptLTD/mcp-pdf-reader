@@ -5,7 +5,7 @@ description = "A PDF file reading server based on FastMCP. Supports PDF text ext
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "mcp>=1.11.0",
+    "fastmcp>=2.10.5",
     "pymupdf>=1.26.3",
 ]
 

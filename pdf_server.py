@@ -1,15 +1,8 @@
 import os, json, base64, fitz, logging
-from mcp.server.fastmcp import FastMCP
 from typing import Optional, List, Dict, Any
+from fastmcp import FastMCP
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger('mcp-pdf-server')
-
-mcp = FastMCP("PDF Reader", version="1.0.0", description="MCP server for PDF reading")
-
-pdf_resources = {}
-pdf_cache = {}
-
+mcp = FastMCP("PDF Reader", version="0.1.0")
 
 @mcp.tool()
 def read_pdf_text(file_path: str, start_page: int = 1, end_page: Optional[int] = None) -> str:
@@ -135,9 +128,7 @@ def main():
     PDF_DIR = os.environ.get("PDF_DIR")
     if PDF_DIR and os.path.exists(PDF_DIR):
         os.chdir(PDF_DIR)
-    logger.info("Starting MCP PDF Server...")
-    logger.info(f"Current directory: {os.getcwd()}")
-    mcp.run()
+    mcp.run(show_banner=False)
 
 if __name__ == "__main__":
     main()
