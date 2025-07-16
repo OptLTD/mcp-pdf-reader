@@ -8,3 +8,6 @@ dependencies = [
     "mcp>=1.11.0",
     "pymupdf>=1.26.3",
 ]
+
+[project.scripts]
+mcp-pdf-reader = "pdf_server:main"
