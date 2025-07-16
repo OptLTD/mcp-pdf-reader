@@ -1,7 +1,7 @@
 [project]
 name = "mcp-pdf-reader"
-version = "0.1.1"
-description = "📄🤖 A PDF file reading server based on FastMCP. Supports PDF text extraction, OCR recognition, and image extraction via the MCP protocol, with a built-in web debugger for easy testing."
+version = "0.1.3"
+description = "A PDF file reading server based on FastMCP. Supports PDF text extraction, OCR recognition, and image extraction via the MCP protocol, with a built-in web debugger for easy testing."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

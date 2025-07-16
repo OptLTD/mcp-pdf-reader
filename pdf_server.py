@@ -130,11 +130,14 @@ def read_pdf_images(file_path: str, page_number: int=1) -> Dict[str, List[Dict[s
     return {"images": images}
 
 
-if __name__ == "__main__":
-    # 读取环境变量 PDF_DIR，如果没有则用默认路径
+def main():
+    # Only change directory if PDF_DIR environment variable is set and valid
     PDF_DIR = os.environ.get("PDF_DIR")
-    if os.path.exists(PDF_DIR):
+    if PDF_DIR and os.path.exists(PDF_DIR):
         os.chdir(PDF_DIR)
     logger.info("Starting MCP PDF Server...")
     logger.info(f"Current directory: {os.getcwd()}")
     mcp.run()
+
+if __name__ == "__main__":
+    main()
