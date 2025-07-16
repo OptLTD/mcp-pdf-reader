@@ -39,6 +39,22 @@ pip install pymupdf mcp
 
 > Note: To use OCR features, you may need a MuPDF build with OCR support or external OCR libraries.
 
+## 🤖 Configuration
+
+```json
+{
+  "mcpServers": {
+    "pdf-reader": {
+      "command": "uvx",
+      "timeout": 60000,
+      "args": [
+        "mcp-pdf-reader"
+      ]
+    }
+  }
+}
+```
+
 ---
 
 ## 🔦 Start the Server
